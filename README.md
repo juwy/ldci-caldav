@@ -12,7 +12,7 @@ This is a **hobby project** without extensive testing -my first one on GitHub �
 
 ## Features
 
-- 🔐 **Auth Test** - Verify your CalDAV connection
+- 🔐 **Auth Test** - Setup and verify your CalDAV connection
 - 📅 **List Calendars** - View all available calendars
 - 🔍 **Search Events** - Find events by title, date range, or calendar
 - ➕ **Create Event** - Create new events with attendees and reminders
