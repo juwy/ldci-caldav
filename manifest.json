@@ -1,0 +1,511 @@
+{
+  "version": "1.0.0",
+  "id": "0db551fd-978f-473a-aed7-4983bc132b21",
+  "name": "JUWYs CalDAV",
+  "color": null,
+  "description": "Events auf CalDAV erstellen, suchen und ändern",
+  "authType": "API_KEY",
+  "integrationType": "API",
+  "authFields": [
+    {
+      "slug": "password",
+      "label": "password",
+      "description": "Passwort oder App-spezifisches Passwort",
+      "placeholder": null,
+      "type": "PASSWORD",
+      "required": true,
+      "maxLength": null
+    },
+    {
+      "slug": "port",
+      "label": "port",
+      "description": "Optional: CalDAV Port",
+      "placeholder": null,
+      "type": "NUMBER",
+      "required": false,
+      "maxLength": null
+    },
+    {
+      "slug": "serverUrl",
+      "label": "server_url",
+      "description": "Die Basis-URL des CalDAV-Servers",
+      "placeholder": null,
+      "type": "TEXT",
+      "required": true,
+      "maxLength": null
+    },
+    {
+      "slug": "username",
+      "label": "username",
+      "description": "CalDAV Benutzername",
+      "placeholder": null,
+      "type": "TEXT",
+      "required": true,
+      "maxLength": null
+    }
+  ],
+  "actions": [
+    {
+      "slug": "list_calendars",
+      "name": "List Calendars",
+      "description": "Ruft alle verfügbaren Kalender des Benutzers ab.",
+      "nativeActionType": "NONE",
+      "requiresConfirmation": false,
+      "inputFields": [
+        {
+          "slug": "includeShared",
+          "label": "Include Shared",
+          "description": "Geteilte Kalender einbeziehen",
+          "placeholder": null,
+          "type": "BOOLEAN",
+          "required": true,
+          "options": null,
+          "allowMultiSelect": null,
+          "allowMultiFile": false,
+          "maxLength": null,
+          "jsonSchema": null,
+          "order": 2
+        },
+        {
+          "slug": "showDetails",
+          "label": "Show Details",
+          "description": "Zeigt zusätzliche Metadaten wie Farbe, Beschreibung und unterstützte Komponenten",
+          "placeholder": "",
+          "type": "BOOLEAN",
+          "required": true,
+          "options": null,
+          "allowMultiSelect": null,
+          "allowMultiFile": false,
+          "maxLength": null,
+          "jsonSchema": null,
+          "order": 3
+        },
+        {
+          "slug": "includeTasks",
+          "label": "include_Tasks",
+          "description": "Task-Listen einbeziehen (TRUE) oder nur echte Kalender anzeigen (FALSE)",
+          "placeholder": null,
+          "type": "BOOLEAN",
+          "required": true,
+          "options": null,
+          "allowMultiSelect": null,
+          "allowMultiFile": false,
+          "maxLength": null,
+          "jsonSchema": null,
+          "order": 1
+        }
+      ]
+    },
+    {
+      "slug": "create_event",
+      "name": "Create Event",
+      "description": "Legt ein Event an",
+      "nativeActionType": "NONE",
+      "requiresConfirmation": true,
+      "inputFields": [
+        {
+          "slug": "timezone",
+          "label": "Timezone",
+          "description": "IANA Zeitzone (z.B. Europe/Berlin, America/New_York, Asia/Tokyo). Nur relevant wenn Zeitzone-Modus = \"specific\". Häufige Zeitzonen: Europe/Berlin, Europe/London, America/New_York, America/Los_Angeles, Asia/Tokyo, Asia/Shanghai.",
+          "placeholder": null,
+          "type": "TEXT",
+          "required": false,
+          "options": null,
+          "allowMultiSelect": null,
+          "allowMultiFile": false,
+          "maxLength": null,
+          "jsonSchema": null,
+          "order": 6
+        },
+        {
+          "slug": "allDay",
+          "label": "All Day",
+          "description": "Aktivieren für ganztägige Events (z.B. Geburtstag, Feiertag). Bei ganztägigen Events wird die Uhrzeit ignoriert und nur das Datum verwendet.",
+          "placeholder": null,
+          "type": "BOOLEAN",
+          "required": false,
+          "options": null,
+          "allowMultiSelect": null,
+          "allowMultiFile": false,
+          "maxLength": null,
+          "jsonSchema": null,
+          "order": 7
+        },
+        {
+          "slug": "attendees",
+          "label": "Attendees",
+          "description": "E-Mail-Adressen der Teilnehmer, eine pro Zeile. Die Teilnehmer erhalten je nach Server-Konfiguration möglicherweise eine Einladung.",
+          "placeholder": null,
+          "type": "MULTI_LINE_TEXT",
+          "required": false,
+          "options": null,
+          "allowMultiSelect": null,
+          "allowMultiFile": false,
+          "maxLength": null,
+          "jsonSchema": null,
+          "order": 10
+        },
+        {
+          "slug": "calendarId",
+          "label": "Calendar ID",
+          "description": "Die ID des Kalenders (aus \"List Calendars\"). Es handelt sich *nicht* um den Kalendernamen, sondern um die ID, die zuvor z.B. mittels der Action \"List Calendars\" ermittelt wurde.\n",
+          "placeholder": null,
+          "type": "TEXT",
+          "required": true,
+          "options": null,
+          "allowMultiSelect": null,
+          "allowMultiFile": false,
+          "maxLength": null,
+          "jsonSchema": null,
+          "order": 1,
+          "contextActionSlug": "list_calendars"
+        },
+        {
+          "slug": "description",
+          "label": "Description",
+          "description": "Optionale Beschreibung oder Agenda für den Termin",
+          "placeholder": null,
+          "type": "MULTI_LINE_TEXT",
+          "required": false,
+          "options": null,
+          "allowMultiSelect": null,
+          "allowMultiFile": false,
+          "maxLength": null,
+          "jsonSchema": null,
+          "order": 9
+        },
+        {
+          "slug": "endDatetime",
+          "label": "End DateTime",
+          "description": "YYYY-MM-DDTHH:MM:SS (z.B. 2025-12-30T15:00:00). Muss nach dem Start-Zeitpunkt liegen. Die Zeit wird wie beim Start-Zeitpunkt interpretiert.",
+          "placeholder": null,
+          "type": "TEXT",
+          "required": true,
+          "options": null,
+          "allowMultiSelect": null,
+          "allowMultiFile": false,
+          "maxLength": null,
+          "jsonSchema": null,
+          "order": 4
+        },
+        {
+          "slug": "location",
+          "label": "Location",
+          "description": "Ort des Termins oder Meeting-Link (z.B. Zoom, Teams, Google Meet)",
+          "placeholder": null,
+          "type": "TEXT",
+          "required": false,
+          "options": null,
+          "allowMultiSelect": null,
+          "allowMultiFile": false,
+          "maxLength": null,
+          "jsonSchema": null,
+          "order": 8
+        },
+        {
+          "slug": "reminders",
+          "label": "Reminders",
+          "description": "ISO 8601 Duration Format, eine Erinnerung pro Zeile. Beispiele: PT15M = 15 Min, PT1H = 1 Std, P1D = 1 Tag, P1W = 1 Woche vorher. Mehrere Erinnerungen möglich.",
+          "placeholder": null,
+          "type": "MULTI_LINE_TEXT",
+          "required": false,
+          "options": null,
+          "allowMultiSelect": null,
+          "allowMultiFile": false,
+          "maxLength": null,
+          "jsonSchema": null,
+          "order": 11
+        },
+        {
+          "slug": "startDatetime",
+          "label": "Start DateTime",
+          "description": "YYYY-MM-DDTHH:MM:SS (z.B. 2025-12-30T14:00:00). Die Zeit wird je nach Zeitzone-Modus interpretiert: UTC = absolute Zeit, Floating = lokale Zeit des Betrachters, Specific = Zeit in der gewählten Zeitzone.",
+          "placeholder": null,
+          "type": "TEXT",
+          "required": true,
+          "options": null,
+          "allowMultiSelect": null,
+          "allowMultiFile": false,
+          "maxLength": null,
+          "jsonSchema": null,
+          "order": 3
+        },
+        {
+          "slug": "timezoneMode",
+          "label": "Timezone Mode",
+          "description": "UTC (empfohlen) = Absolute Zeit, eindeutig weltweit. Floating = Lokale Zeit des Betrachters (z.B. \"9:00 Uhr überall\"). Specific = Feste Zeitzone mit Sommerzeit-Berücksichtigung.",
+          "placeholder": null,
+          "type": "SELECT",
+          "required": true,
+          "options": [
+            {
+              "label": "utc",
+              "value": "utc"
+            },
+            {
+              "label": "floating",
+              "value": "floating"
+            },
+            {
+              "label": "specific",
+              "value": "specific"
+            }
+          ],
+          "allowMultiSelect": null,
+          "allowMultiFile": false,
+          "maxLength": null,
+          "jsonSchema": null,
+          "order": 5
+        },
+        {
+          "slug": "title",
+          "label": "Title",
+          "description": "Der Titel des Termins",
+          "placeholder": null,
+          "type": "TEXT",
+          "required": true,
+          "options": null,
+          "allowMultiSelect": null,
+          "allowMultiFile": false,
+          "maxLength": null,
+          "jsonSchema": null,
+          "order": 2
+        }
+      ]
+    },
+    {
+      "slug": "search_events",
+      "name": "Search Events",
+      "description": "Suche nach Events im Kalender.\nFalls nur der Kalendername bekannt ist, muss die \"Calendar ID\" zunächst über \"List Calendars\" ermittelt werden.",
+      "nativeActionType": "NONE",
+      "requiresConfirmation": false,
+      "inputFields": [
+        {
+          "slug": "calendarId",
+          "label": "Calendar ID",
+          "description": "Die ID des Kalenders (aus \"List Calendars\")",
+          "placeholder": null,
+          "type": "TEXT",
+          "required": true,
+          "options": null,
+          "allowMultiSelect": null,
+          "allowMultiFile": false,
+          "maxLength": null,
+          "jsonSchema": null,
+          "order": 1,
+          "contextActionSlug": "list_calendars"
+        },
+        {
+          "slug": "endDate",
+          "label": "End Date",
+          "description": "End-Datum der Suche (YYYY-MM-DD). Leer = +30 Tage",
+          "placeholder": null,
+          "type": "TEXT",
+          "required": false,
+          "options": null,
+          "allowMultiSelect": null,
+          "allowMultiFile": false,
+          "maxLength": null,
+          "jsonSchema": null,
+          "order": 3
+        },
+        {
+          "slug": "searchText",
+          "label": "Search Text",
+          "description": "Filter nach Titel, Beschreibung oder Ort",
+          "placeholder": null,
+          "type": "TEXT",
+          "required": false,
+          "options": null,
+          "allowMultiSelect": null,
+          "allowMultiFile": false,
+          "maxLength": null,
+          "jsonSchema": null,
+          "order": 4
+        },
+        {
+          "slug": "startDate",
+          "label": "Start Date",
+          "description": "Start-Datum der Suche (YYYY-MM-DD). Leer = heute",
+          "placeholder": null,
+          "type": "TEXT",
+          "required": false,
+          "options": null,
+          "allowMultiSelect": null,
+          "allowMultiFile": false,
+          "maxLength": null,
+          "jsonSchema": null,
+          "order": 2
+        },
+        {
+          "slug": "maxResults",
+          "label": "Max Results",
+          "description": "Maximale Anzahl der Ergebnisse (Standard: 50)",
+          "placeholder": null,
+          "type": "NUMBER",
+          "required": false,
+          "options": null,
+          "allowMultiSelect": null,
+          "allowMultiFile": false,
+          "maxLength": null,
+          "jsonSchema": null,
+          "order": 5
+        },
+        {
+          "slug": "cleanHtml",
+          "label": "Clean HTML",
+          "description": "Falls TRUE: Entfernt HTML/CSS aus Event-Beschreibungen für bessere Lesbarkeit",
+          "placeholder": null,
+          "type": "BOOLEAN",
+          "required": false,
+          "options": null,
+          "allowMultiSelect": null,
+          "allowMultiFile": false,
+          "maxLength": null,
+          "jsonSchema": null,
+          "order": 6
+        }
+      ]
+    },
+    {
+      "slug": "update_event",
+      "name": "Update Event",
+      "description": "Ändern eines Kalendereintrags",
+      "nativeActionType": "NONE",
+      "requiresConfirmation": true,
+      "inputFields": [
+        {
+          "slug": "endDatetime",
+          "label": "End DateTime",
+          "description": "Optional: Neuer End-Zeitpunkt im Format YYYY-MM-DDTHH:MM:SS (z.B. 2025-12-30T15:00:00). Muss nach dem Start-Zeitpunkt liegen.",
+          "placeholder": null,
+          "type": "TEXT",
+          "required": false,
+          "options": null,
+          "allowMultiSelect": null,
+          "allowMultiFile": false,
+          "maxLength": null,
+          "jsonSchema": null,
+          "order": 4
+        },
+        {
+          "slug": "eventUrl",
+          "label": "Event Url",
+          "description": "",
+          "placeholder": null,
+          "type": "TEXT",
+          "required": true,
+          "options": null,
+          "allowMultiSelect": null,
+          "allowMultiFile": false,
+          "maxLength": null,
+          "jsonSchema": null,
+          "order": 1,
+          "contextActionSlug": "search_events"
+        },
+        {
+          "slug": "location",
+          "label": "Location",
+          "description": "Optional: Ort des Termins oder Meeting-Link (z.B. Zoom, Teams, Google Meet)",
+          "placeholder": null,
+          "type": "MULTI_LINE_TEXT",
+          "required": false,
+          "options": null,
+          "allowMultiSelect": null,
+          "allowMultiFile": false,
+          "maxLength": null,
+          "jsonSchema": null,
+          "order": 5
+        },
+        {
+          "slug": "reminders",
+          "label": "Reminders",
+          "description": "Optional: Erinnerungen im ISO 8601 Duration Format, eine pro Zeile. Beispiele: PT15M (15 Min), PT1H (1 Std), P1D (1 Tag), P1W (1 Woche). Achtung: Ersetzt alle bisherigen Erinnerungen komplett!",
+          "placeholder": null,
+          "type": "MULTI_LINE_TEXT",
+          "required": false,
+          "options": null,
+          "allowMultiSelect": null,
+          "allowMultiFile": false,
+          "maxLength": null,
+          "jsonSchema": null,
+          "order": 7
+        },
+        {
+          "slug": "startDatetime",
+          "label": "Start DateTime",
+          "description": "Optional: Neuer Start-Zeitpunkt im Format YYYY-MM-DDTHH:MM:SS (z.B. 2025-12-30T14:00:00). Wenn nur Start geändert wird, bleibt die Dauer gleich.",
+          "placeholder": null,
+          "type": "TEXT",
+          "required": false,
+          "options": null,
+          "allowMultiSelect": null,
+          "allowMultiFile": false,
+          "maxLength": null,
+          "jsonSchema": null,
+          "order": 3
+        },
+        {
+          "slug": "attendees",
+          "label": "Attendees",
+          "description": "Optional: E-Mail-Adressen der Teilnehmer, eine pro Zeile. Achtung: Ersetzt alle bisherigen Teilnehmer komplett!",
+          "placeholder": null,
+          "type": "MULTI_LINE_TEXT",
+          "required": false,
+          "options": null,
+          "allowMultiSelect": null,
+          "allowMultiFile": false,
+          "maxLength": null,
+          "jsonSchema": null,
+          "order": 6
+        },
+        {
+          "slug": "title",
+          "label": "Title",
+          "description": "Optional: Geänderter Titel",
+          "placeholder": null,
+          "type": "TEXT",
+          "required": false,
+          "options": null,
+          "allowMultiSelect": null,
+          "allowMultiFile": false,
+          "maxLength": null,
+          "jsonSchema": null,
+          "order": 2
+        },
+        {
+          "slug": "status",
+          "label": "Status",
+          "description": "Optional: Status des Termins. Optionen: CONFIRMED, TENTATIVE, CANCELLED",
+          "placeholder": "<NO CHANGE>",
+          "type": "SELECT",
+          "required": true,
+          "options": [
+            {
+              "label": "CONFIRMED",
+              "value": "CONFIRMED"
+            },
+            {
+              "label": "TENTATIVE",
+              "value": "TENTATIVE"
+            },
+            {
+              "label": "CANCELLED",
+              "value": "CANCELLED"
+            },
+            {
+              "label": "<NO CHANGE>",
+              "value": "<NO CHANGE>"
+            }
+          ],
+          "allowMultiSelect": null,
+          "allowMultiFile": false,
+          "maxLength": null,
+          "jsonSchema": null,
+          "order": 8
+        }
+      ]
+    }
+  ],
+  "triggers": []
+}
