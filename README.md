@@ -1,4 +1,4 @@
-# CalDAV Integration for Langdock
+# JUWYs CalDAV Integration for Langdock
 
 Connect your CalDAV-compatible calendar to Langdock and manage events directly from your AI assistant.
 
